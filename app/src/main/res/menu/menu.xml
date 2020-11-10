@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+    <item
+        android:id="@+id/joc"
+        android:icon="@mipmap/ic_play_round"
+        app:showAsAction="ifRoom|withText"
+        android:title="Joc Principal">
+    </item>
+    <item
+        android:id="@+id/opcioElementLiquid"
+        app:showAsAction="never"
+        android:title="Liquids">
+    </item>
+    <item
+        android:id="@+id/opcioElementSolid"
+        app:showAsAction="never"
+        android:title="Solids">
+    </item>
+    <item
+        android:id="@+id/opcioElementGasos"
+        app:showAsAction="never"
+        android:title="Gasos">
+    </item>
+    <item
+        android:id="@+id/opcioElementSintetic"
+        app:showAsAction="never"
+        android:title="Sintetics">
+    </item>
+</menu>
