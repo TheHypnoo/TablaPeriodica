@@ -10,15 +10,15 @@ public class Elemento {
     private String url;
     private String SerieQuimica;
 
-    public Elemento(String serieQuimica, String estado1, String Simbolo1, String numero1, String nombre1, String peso1,String url1)
+    public Elemento(String serieQuimica, String Estado, String Simbolo, String Numero, String Nombre, String Peso,String LINK)
     {
         SerieQuimica = serieQuimica;
-        estado = estado1;
-        simbolo = Simbolo1;
-        numeroAtomico = numero1;
-        nombre = nombre1;
-        peso = peso1;
-        url = url1;
+        estado = Estado;
+        simbolo = Simbolo;
+        numeroAtomico = Numero;
+        nombre = Nombre;
+        peso = Peso;
+        url = LINK;
     }
 
     public void setNombre(String nombre) {

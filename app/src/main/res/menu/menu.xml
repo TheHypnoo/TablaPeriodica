@@ -3,12 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
+
     <item
-        android:id="@+id/joc"
-        android:icon="@mipmap/ic_play_round"
-        app:showAsAction="ifRoom|withText"
-        android:title="Joc Principal">
+        android:id="@+id/opcioTots"
+        app:showAsAction="never"
+        android:title="Todos">
     </item>
+
     <item
         android:id="@+id/opcioElementLiquid"
         app:showAsAction="never"
