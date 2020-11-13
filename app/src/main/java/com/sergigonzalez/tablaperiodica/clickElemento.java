@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ public class clickElemento extends AppCompatActivity {
     TextView muestraSerieQuimica;
     TextView muestraPeso;
     ImageView clickURL;
+    Button bt_compartir;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +48,14 @@ public class clickElemento extends AppCompatActivity {
             i.setData(Uri.parse(InfoElemento[6]));
             startActivity(i);
         });
+        bt_compartir.setOnClickListener(v -> {
+            Intent compartir = new Intent(android.content.Intent.ACTION_SEND);
+            compartir.setType("text/plain");
+            String mensaje = "Elemento: "+InfoElemento[0]+" \nSimbolo: "+InfoElemento[1]+" \nEstado: "+InfoElemento[2]+" \nNumero Atomico: "+InfoElemento[3]+" \nSerie Quimica: "+InfoElemento[4]+" \nPeso del elemento: "+InfoElemento[5]+" \n+Info: "+InfoElemento[6];
+            compartir.putExtra(android.content.Intent.EXTRA_SUBJECT, "Tabla Periodica");
+            compartir.putExtra(android.content.Intent.EXTRA_TEXT, mensaje);
+            startActivity(Intent.createChooser(compartir, "Compartir vía"));
+        });
     }
 
     @Override
@@ -62,5 +72,6 @@ public class clickElemento extends AppCompatActivity {
         muestraSerieQuimica = findViewById(R.id.muestraSerieQuimica);
         muestraPeso = findViewById(R.id.muestraPeso);
         clickURL = findViewById(R.id.clickURL);
+        bt_compartir = findViewById(R.id.bt_compartir);
     }
 }

@@ -19,22 +19,22 @@ import android.widget.TextView;
 
 public class allElementos extends AppCompatActivity {
 
-    final String solid = "solid";
-    final String liquid = "liquid";
-    final String gasos = "gasos";
-    final String sintetics = "sintetics";
+    static final String solid = "solid";
+    static final String liquid = "liquid";
+    static final String gasos = "gasos";
+    static final String sintetics = "sintetics";
 
-    final String metallTrans = "Metall_Transicio";
-    final String metallAlc = "Metall_Alcalins";
-    final String alcalinoterris = "Alcalinoterris";
-    final String lantanids = "Lantanids";
-    final String actinidis = "Actinidis";
-    final String metallsBlocP = "Metalls_bloc_p";
-    final String metaloides = "Metaloides";
-    final String noMetalls = "No_metalls";
-    final String halogens = "Halogens";
-    final String gasosNobl = "Gasos_nobles";
-    private final Elemento[] ArrElemento = new Elemento[]{
+    static final String metallTrans = "Metall_Transicio";
+    static final String metallAlc = "Metall_Alcalins";
+    static final String alcalinoterris = "Alcalinoterris";
+    static final String lantanids = "Lantanids";
+    static final String actinidis = "Actinidis";
+    static final String metallsBlocP = "Metalls_bloc_p";
+    static final String metaloides = "Metaloides";
+    static final String noMetalls = "No_metalls";
+    static final String halogens = "Halogens";
+    static final String gasosNobl = "Gasos_nobles";
+    public static final Elemento[] ArrElemento = new Elemento[]{
             //Todos los solidos
             new Elemento(metallTrans, solid, "Au", "79", "Oro", "196,967", "https://es.wikipedia.org/wiki/Oro"),
             new Elemento(actinidis, solid, "Ac", "89", "Actinio", "10.070", "https://es.wikipedia.org/wiki/Actinio"),
