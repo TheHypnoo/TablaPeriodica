@@ -2,14 +2,20 @@ package com.sergigonzalez.tablaperiodica;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.lang.ref.WeakReference;
 
 public class Game extends AppCompatActivity {
     TextView enunciadoJuego;
@@ -19,8 +25,12 @@ public class Game extends AppCompatActivity {
     RadioButton bt_radio3;
     RadioButton bt_radio4;
     Button bt_corregir;
+    int Puntuacion;
+    TextView PuntMaximo;
+    TextView Restate;
     int elementActual = 0;
     int vida = 3;
+    Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +52,14 @@ public class Game extends AppCompatActivity {
         bt_radio3 = findViewById(R.id.bt_radio3);
         bt_radio4 = findViewById(R.id.bt_radio4);
         bt_corregir = findViewById(R.id.bt_corregir);
+        PuntMaximo = findViewById(R.id.PuntMaximo);
+        Restate = findViewById(R.id.Restante);
     }
+
 
     public void mostrarPreguntaActual(){
         String infoDePregunta = "Digues el nom del element\namb el simbol: "+allElementos.ArrElemento[elementActual].getSimbolo();
-        //simbolPregunta.setText(allElementos.ArrElemento[elementActual].getSimbol());
+        Restate.setText("Restante "+elementActual+" / 117");
         enunciadoJuego.setText(infoDePregunta);
         int numAux = (int) (Math.random()*4+1);
         muestraVidas.setText(String.valueOf(vida));
@@ -91,6 +104,8 @@ public class Game extends AppCompatActivity {
         desm.clearCheck();
     }
     public void validarYPassarseguent() {
+        SharedPreferences sharedpreferences = getSharedPreferences("Puntuacion", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
         //Obtenim resultat del usuari.
         int resultatSeleccionat = -1;
         if (bt_radio1.isChecked()) {
@@ -113,32 +128,66 @@ public class Game extends AppCompatActivity {
         desmarcador();
         // guarda si es correcta o no
         if (resultatSeleccionat != -1) {
+            String Puntua = sharedpreferences.getString("Puntuacion", "0");
+
+            Puntuacion++;
+            Integer.parseInt(String.valueOf(Puntuacion));
+            if(Integer.parseInt(Puntua) > Puntuacion) {
+                PuntMaximo.setText("Puntuación maxima: "+ Puntua);
+            } else {
+                System.out.println("Más pequeño");
+            }
+
             Toast.makeText(Game.this, "Molt be!! element encertat!!", Toast.LENGTH_SHORT).show();
             elementActual++;
             if (elementActual < 117) {
-                mostrarPreguntaActual();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mostrarPreguntaActual();
+                    }
+                }, 350);
             } else {
                 System.out.println("Has acabado");
             }
         } else {
             elementActual++;
             if (elementActual < 117) {
-                mostrarPreguntaActual();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mostrarPreguntaActual();
+                    }
+                }, 350);
             } else {
                 System.out.println("Has acabado");
             }
             Integer.parseInt(String.valueOf(vida));
             vida--;
-            muestraVidas.setText(String.valueOf(vida));
-            Toast.makeText(Game.this, "Te quedan "+vida+"vidas", Toast.LENGTH_SHORT).show();
+            if(vida < 3 && vida > 1) {
+                Toast.makeText(Game.this, "Te queda "+vida+" vidas", Toast.LENGTH_SHORT).show();
+            } else if(vida == 1) {
+                Toast.makeText(Game.this, "Cuidado te queda solamente "+vida+" vida!", Toast.LENGTH_SHORT).show();
+            }
+
+
 
             if(vida == 0) {
-                Toast.makeText(Game.this, "Se ha finalizado!", Toast.LENGTH_SHORT).show();
-                finish();
+                Toast.makeText(Game.this, "Te has quedado sin vidas!", Toast.LENGTH_SHORT).show();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                }, 850);
+
             }
         }
+        editor.putString("Puntuacion", String.valueOf(Puntuacion));
+        editor.commit();
     }
-/*
+
+    /*
     public void Game(){
         int ArrPos = (int)Math.floor(Math.random()*(-(116 + 0))+(116));
         int ArrPos2 = (int)Math.floor(Math.random()*(-(116 + 0))+(116));
