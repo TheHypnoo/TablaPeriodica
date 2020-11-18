@@ -2,6 +2,7 @@ package com.sergigonzalez.tablaperiodica;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -27,16 +28,22 @@ public class Game extends AppCompatActivity {
     TextView Restante;
     int elementoActual = 0;
     int vida = 3;
+    SharedPreferences sharedpreferences;
+    String Puntua;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_game);
+        sharedpreferences = getSharedPreferences("Puntuacion", Context.MODE_PRIVATE);
+        Puntua = sharedpreferences.getString("Puntuacion", "0");
         FindID();
+        CargaPuntuacion();
         preguntaActual();
         bt_corregir.setOnClickListener(v -> {
             CheckToNext();
+            CargaPuntuacion();
         });
     }
 
@@ -53,30 +60,26 @@ public class Game extends AppCompatActivity {
     }
 
     public void GuardaPuntuacion() {
-        SharedPreferences sharedpreferences = getSharedPreferences("Puntuacion", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
-
         editor.putString("Puntuacion", String.valueOf(Puntuacion));
-        editor.commit();
+        editor.apply();
     }
 
-    public void CargaPuntuacion(){
-        SharedPreferences sharedpreferences = getSharedPreferences("Puntuacion", Context.MODE_PRIVATE);
-        String Puntua = sharedpreferences.getString("Puntuacion", "0");
-
-        if(Integer.parseInt(Puntua) >= Puntuacion) {
-            PuntMaximo.setText("Puntuación maxima: "+ Puntua);
-        } else if(Puntuacion > Integer.parseInt(Puntua)){
+    @SuppressLint("SetTextI18n")
+    public void CargaPuntuacion() {
+        if(Integer.parseInt(Puntua) == 0 && Puntuacion == 0) {
+            PuntMaximo.setText("Puntuacion maxima: 0");
+        } else if(Integer.parseInt(Puntua) >= Puntuacion) {
             PuntMaximo.setText("Puntuación maxima: "+ Puntua);
         }
+
     }
 
 
+    @SuppressLint("SetTextI18n")
     public void preguntaActual(){
-        String infoDePregunta = "Digues el nom del element\namb el simbol: "+allElementos.ArrElemento[elementoActual].getSimbolo();
         Restante.setText("Restante "+ elementoActual +" / 117");
-        enunciadoJuego.setText(infoDePregunta);
-        CargaPuntuacion();
+        enunciadoJuego.setText("Di el nombre del elemento del simbolo:\n "+allElementos.ArrElemento[elementoActual].getSimbolo());
         int numAux = (int) (Math.random()*4+1);
         muestraVidas.setText(String.valueOf(vida));
         if(numAux==1)
@@ -145,14 +148,12 @@ public class Game extends AppCompatActivity {
         if (radioButtonSeleccionado != -1) {
 
             Puntuacion++;
-            Integer.parseInt(String.valueOf(Puntuacion));
-
 
             Toast.makeText(Game.this, "Muy bien! has acertado", Toast.LENGTH_SHORT).show();
             elementoActual++;
 
             if (elementoActual < 117) {
-                new Handler(Looper.getMainLooper()).postDelayed(() -> preguntaActual(), 350);
+                new Handler(Looper.getMainLooper()).postDelayed(this::preguntaActual, 350);
             } else {
                 Toast.makeText(Game.this, "Juego terminado!", Toast.LENGTH_SHORT).show();
             }
@@ -161,24 +162,28 @@ public class Game extends AppCompatActivity {
             elementoActual++;
 
             if (elementoActual < 117) {
-                new Handler(Looper.getMainLooper()).postDelayed(() -> preguntaActual(), 350);
+                new Handler(Looper.getMainLooper()).postDelayed(this::preguntaActual, 350);
             } else {
                 Toast.makeText(Game.this, "Juego terminado!", Toast.LENGTH_SHORT).show();
             }
 
 
-            Integer.parseInt(String.valueOf(vida));
             vida--;
-            if(vida < 3 && vida > 1) {
+            if(vida == 2) {
                 Toast.makeText(Game.this, "Te queda "+vida+" vidas", Toast.LENGTH_SHORT).show();
             } else if(vida == 1) {
                 Toast.makeText(Game.this, "Cuidado te queda solamente "+vida+" vida!", Toast.LENGTH_SHORT).show();
             } else if(vida == 0) {
                 Toast.makeText(Game.this, "Te has quedado sin vidas!", Toast.LENGTH_SHORT).show();
-                new Handler(Looper.getMainLooper()).postDelayed(() -> finish(), 850);
+                new Handler(Looper.getMainLooper()).postDelayed(this::finish, 850);
             }
         }
-        GuardaPuntuacion();
+
+        String Puntua = sharedpreferences.getString("Puntuacion", "0");
+        if(Integer.parseInt(Puntua) <= Puntuacion) {
+            GuardaPuntuacion();
+        }
+
     }
 
     /*

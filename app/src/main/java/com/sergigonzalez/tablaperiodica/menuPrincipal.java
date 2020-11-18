@@ -2,7 +2,9 @@ package com.sergigonzalez.tablaperiodica;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -24,7 +26,9 @@ public class menuPrincipal extends AppCompatActivity {
             startActivityForResult(Juego, 0);
         });
         Boton_Puntuacion.setOnClickListener(v -> {
-            Toast.makeText(this,"Tu puntuación es de: ", Toast.LENGTH_LONG).show();
+            SharedPreferences sharedpreferences = getSharedPreferences("Puntuacion", Context.MODE_PRIVATE);
+            String Puntua = sharedpreferences.getString("Puntuacion", "0");
+            Toast.makeText(this,"Tu puntuación es de: "+ Puntua, Toast.LENGTH_LONG).show();
         });
         Boton_Elementos.setOnClickListener(v -> {
             Intent Elementos = new Intent (v.getContext(), allElementos.class);
