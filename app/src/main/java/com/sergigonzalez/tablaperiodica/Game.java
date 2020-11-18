@@ -2,20 +2,17 @@ package com.sergigonzalez.tablaperiodica;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.lang.ref.WeakReference;
 
 public class Game extends AppCompatActivity {
     TextView enunciadoJuego;
@@ -27,10 +24,9 @@ public class Game extends AppCompatActivity {
     Button bt_corregir;
     int Puntuacion;
     TextView PuntMaximo;
-    TextView Restate;
-    int elementActual = 0;
+    TextView Restante;
+    int elementoActual = 0;
     int vida = 3;
-    Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +34,9 @@ public class Game extends AppCompatActivity {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_game);
         FindID();
-        mostrarPreguntaActual();
+        preguntaActual();
         bt_corregir.setOnClickListener(v -> {
-            validarYPassarseguent();
+            CheckToNext();
         });
     }
 
@@ -53,19 +49,39 @@ public class Game extends AppCompatActivity {
         bt_radio4 = findViewById(R.id.bt_radio4);
         bt_corregir = findViewById(R.id.bt_corregir);
         PuntMaximo = findViewById(R.id.PuntMaximo);
-        Restate = findViewById(R.id.Restante);
+        Restante = findViewById(R.id.Restante);
+    }
+
+    public void GuardaPuntuacion() {
+        SharedPreferences sharedpreferences = getSharedPreferences("Puntuacion", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+
+        editor.putString("Puntuacion", String.valueOf(Puntuacion));
+        editor.commit();
+    }
+
+    public void CargaPuntuacion(){
+        SharedPreferences sharedpreferences = getSharedPreferences("Puntuacion", Context.MODE_PRIVATE);
+        String Puntua = sharedpreferences.getString("Puntuacion", "0");
+
+        if(Integer.parseInt(Puntua) >= Puntuacion) {
+            PuntMaximo.setText("Puntuación maxima: "+ Puntua);
+        } else if(Puntuacion > Integer.parseInt(Puntua)){
+            PuntMaximo.setText("Puntuación maxima: "+ Puntua);
+        }
     }
 
 
-    public void mostrarPreguntaActual(){
-        String infoDePregunta = "Digues el nom del element\namb el simbol: "+allElementos.ArrElemento[elementActual].getSimbolo();
-        Restate.setText("Restante "+elementActual+" / 117");
+    public void preguntaActual(){
+        String infoDePregunta = "Digues el nom del element\namb el simbol: "+allElementos.ArrElemento[elementoActual].getSimbolo();
+        Restante.setText("Restante "+ elementoActual +" / 117");
         enunciadoJuego.setText(infoDePregunta);
+        CargaPuntuacion();
         int numAux = (int) (Math.random()*4+1);
         muestraVidas.setText(String.valueOf(vida));
         if(numAux==1)
         {
-            bt_radio1.setText(allElementos.ArrElemento[elementActual].getNombre());
+            bt_radio1.setText(allElementos.ArrElemento[elementoActual].getNombre());
             bt_radio2.setText(allElementos.ArrElemento[(int) (Math.random()*116+0)].getNombre());
             bt_radio3.setText(allElementos.ArrElemento[(int) (Math.random()*116+0)].getNombre());
             bt_radio4.setText(allElementos.ArrElemento[(int) (Math.random()*116+0)].getNombre());
@@ -74,7 +90,7 @@ public class Game extends AppCompatActivity {
             if(numAux==2)
             {
                 bt_radio1.setText(allElementos.ArrElemento[(int) (Math.random()*116+0)].getNombre());
-                bt_radio2.setText(allElementos.ArrElemento[elementActual].getNombre());
+                bt_radio2.setText(allElementos.ArrElemento[elementoActual].getNombre());
                 bt_radio3.setText(allElementos.ArrElemento[(int) (Math.random()*116+0)].getNombre());
                 bt_radio4.setText(allElementos.ArrElemento[(int) (Math.random()*116+0)].getNombre());
             }
@@ -83,7 +99,7 @@ public class Game extends AppCompatActivity {
                 {
                     bt_radio1.setText(allElementos.ArrElemento[(int) (Math.random()*116+0)].getNombre());
                     bt_radio2.setText(allElementos.ArrElemento[(int) (Math.random()*116+0)].getNombre());
-                    bt_radio3.setText(allElementos.ArrElemento[elementActual].getNombre());
+                    bt_radio3.setText(allElementos.ArrElemento[elementoActual].getNombre());
                     bt_radio4.setText(allElementos.ArrElemento[(int) (Math.random()*116+0)].getNombre());
                 }
                 else{
@@ -92,99 +108,77 @@ public class Game extends AppCompatActivity {
                         bt_radio1.setText(allElementos.ArrElemento[(int) (Math.random()*116+0)].getNombre());
                         bt_radio2.setText(allElementos.ArrElemento[(int) (Math.random()*116+0)].getNombre());
                         bt_radio3.setText(allElementos.ArrElemento[(int) (Math.random()*116+0)].getNombre());
-                        bt_radio4.setText(allElementos.ArrElemento[elementActual].getNombre());
+                        bt_radio4.setText(allElementos.ArrElemento[elementoActual].getNombre());
                     }
                 }
             }
         }
     }
-    public void desmarcador()
-    {
+
+    public void unCheckRadioButtons() {
         RadioGroup desm=findViewById(R.id.grupoBotones);
         desm.clearCheck();
     }
-    public void validarYPassarseguent() {
-        SharedPreferences sharedpreferences = getSharedPreferences("Puntuacion", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        //Obtenim resultat del usuari.
-        int resultatSeleccionat = -1;
+
+    public void CheckToNext() {
+
+        int radioButtonSeleccionado = -1;
         if (bt_radio1.isChecked()) {
-            if (bt_radio1.getText().toString().equalsIgnoreCase(allElementos.ArrElemento[elementActual].getNombre())) {
-                resultatSeleccionat = 0;
+            if (bt_radio1.getText().toString().equalsIgnoreCase(allElementos.ArrElemento[elementoActual].getNombre())) {
+                radioButtonSeleccionado = 0;
             }
         } else if (bt_radio2.isChecked()) {
-            if (bt_radio2.getText().toString().equalsIgnoreCase(allElementos.ArrElemento[elementActual].getNombre())) {
-                resultatSeleccionat = 1;
+            if (bt_radio2.getText().toString().equalsIgnoreCase(allElementos.ArrElemento[elementoActual].getNombre())) {
+                radioButtonSeleccionado = 1;
             }
         } else if (bt_radio3.isChecked()) {
-            if (bt_radio3.getText().toString().equalsIgnoreCase(allElementos.ArrElemento[elementActual].getNombre())) {
-                resultatSeleccionat = 2;
+            if (bt_radio3.getText().toString().equalsIgnoreCase(allElementos.ArrElemento[elementoActual].getNombre())) {
+                radioButtonSeleccionado = 2;
             }
         } else if (bt_radio4.isChecked()) {
-            if (bt_radio4.getText().toString().equalsIgnoreCase(allElementos.ArrElemento[elementActual].getNombre())) {
-                resultatSeleccionat = 3;
+            if (bt_radio4.getText().toString().equalsIgnoreCase(allElementos.ArrElemento[elementoActual].getNombre())) {
+                radioButtonSeleccionado = 3;
             }
         }
-        desmarcador();
-        // guarda si es correcta o no
-        if (resultatSeleccionat != -1) {
-            String Puntua = sharedpreferences.getString("Puntuacion", "0");
+        unCheckRadioButtons();
+
+        if (radioButtonSeleccionado != -1) {
 
             Puntuacion++;
             Integer.parseInt(String.valueOf(Puntuacion));
-            if(Integer.parseInt(Puntua) > Puntuacion) {
-                PuntMaximo.setText("Puntuación maxima: "+ Puntua);
+
+
+            Toast.makeText(Game.this, "Muy bien! has acertado", Toast.LENGTH_SHORT).show();
+            elementoActual++;
+
+            if (elementoActual < 117) {
+                new Handler(Looper.getMainLooper()).postDelayed(() -> preguntaActual(), 350);
             } else {
-                System.out.println("Más pequeño");
+                Toast.makeText(Game.this, "Juego terminado!", Toast.LENGTH_SHORT).show();
             }
 
-            Toast.makeText(Game.this, "Molt be!! element encertat!!", Toast.LENGTH_SHORT).show();
-            elementActual++;
-            if (elementActual < 117) {
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mostrarPreguntaActual();
-                    }
-                }, 350);
-            } else {
-                System.out.println("Has acabado");
-            }
         } else {
-            elementActual++;
-            if (elementActual < 117) {
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mostrarPreguntaActual();
-                    }
-                }, 350);
+            elementoActual++;
+
+            if (elementoActual < 117) {
+                new Handler(Looper.getMainLooper()).postDelayed(() -> preguntaActual(), 350);
             } else {
-                System.out.println("Has acabado");
+                Toast.makeText(Game.this, "Juego terminado!", Toast.LENGTH_SHORT).show();
             }
+
+
             Integer.parseInt(String.valueOf(vida));
             vida--;
             if(vida < 3 && vida > 1) {
                 Toast.makeText(Game.this, "Te queda "+vida+" vidas", Toast.LENGTH_SHORT).show();
             } else if(vida == 1) {
                 Toast.makeText(Game.this, "Cuidado te queda solamente "+vida+" vida!", Toast.LENGTH_SHORT).show();
-            }
-
-
-
-            if(vida == 0) {
+            } else if(vida == 0) {
                 Toast.makeText(Game.this, "Te has quedado sin vidas!", Toast.LENGTH_SHORT).show();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        finish();
-                    }
-                }, 850);
-
+                new Handler(Looper.getMainLooper()).postDelayed(() -> finish(), 850);
             }
         }
-        editor.putString("Puntuacion", String.valueOf(Puntuacion));
-        editor.commit();
+        GuardaPuntuacion();
     }
 
     /*
