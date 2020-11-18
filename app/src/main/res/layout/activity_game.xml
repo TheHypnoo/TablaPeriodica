@@ -32,14 +32,40 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="serif-monospace"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:visibility="gone" />
 
             <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="35dp"
-                android:layout_height="31dp"
-                app:srcCompat="@mipmap/corazon" />
+                android:id="@+id/trescorazones"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="right"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                app:srcCompat="@mipmap/trescorazones" />
+
+            <ImageView
+                android:id="@+id/doscorazones"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="right"
+                android:layout_weight="0"
+                android:visibility="gone"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                app:srcCompat="@mipmap/doscorazones" />
+
+            <ImageView
+                android:id="@+id/uncorazon"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:visibility="gone"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                app:srcCompat="@mipmap/uncorazon" />
 
         </LinearLayout>
 
@@ -47,9 +73,21 @@
             android:id="@+id/enunciadoJuego"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Selecciona cual es el nombre del elemento de este Simbolo:"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
+            android:layout_gravity="center"
+            android:hint="Selecciona cual es el nombre que tiene este Simbolo:"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/simboloTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="serif-monospace"
+            android:gravity="center"
+            android:hint="Simbolo"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16dp"
             android:textStyle="bold" />
 
         <Space
@@ -64,6 +102,7 @@
             <RadioButton
                 android:id="@+id/bt_radio1"
                 android:layout_width="match_parent"
+                android:textSize="18dp"
                 android:layout_height="wrap_content" />
 
             <Space
@@ -73,6 +112,7 @@
             <RadioButton
                 android:id="@+id/bt_radio2"
                 android:layout_width="match_parent"
+                android:textSize="18dp"
                 android:layout_height="wrap_content" />
 
             <Space
@@ -82,6 +122,7 @@
             <RadioButton
                 android:id="@+id/bt_radio3"
                 android:layout_width="match_parent"
+                android:textSize="18dp"
                 android:layout_height="wrap_content" />
 
             <Space
@@ -91,6 +132,7 @@
             <RadioButton
                 android:id="@+id/bt_radio4"
                 android:layout_width="match_parent"
+                android:textSize="18dp"
                 android:layout_height="wrap_content" />
 
             <Space
@@ -99,24 +141,24 @@
 
             <Button
                 android:id="@+id/bt_corregir"
-                android:layout_width="150dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Corregir"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                style="@style/TextAppearance.AppCompat.Large"/>
 
         </RadioGroup>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="right"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -124,17 +166,21 @@
                     android:id="@+id/PuntMaximo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:text="Puntuación maxima:" />
+                    android:hint="Puntuacion Maxima: "
+                    android:textColorHighlight="#FFFFFF"
+                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/Restante"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:text="Restante:" />
+                    android:hint="Restante: "
+                    android:textColorHighlight="#FFFFFF"
+                    android:textSize="24sp" />
             </LinearLayout>
 
         </LinearLayout>
