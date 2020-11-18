@@ -20,7 +20,6 @@ import android.widget.Toast;
 public class Game extends AppCompatActivity {
     TextView enunciadoJuego;
     TextView Simbolo;
-    TextView muestraVidas;
     ImageView tresCorazones;
     ImageView dosCorazones;
     ImageView unCorazon;
@@ -34,29 +33,20 @@ public class Game extends AppCompatActivity {
     TextView Restante;
     int elementoActual = 0;
     int vida = 3;
-    SharedPreferences sharedpreferences;
-    String Puntua;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_game);
-        sharedpreferences = getSharedPreferences("Puntuacion", Context.MODE_PRIVATE);
-        Puntua = sharedpreferences.getString("Puntuacion", "0");
         FindID();
-        CargaPuntuacion();
         preguntaActual();
-        bt_corregir.setOnClickListener(v -> {
-            CheckToNext();
-            CargaPuntuacion();
-        });
+        bt_corregir.setOnClickListener(v -> CheckToNext());
     }
 
     public void FindID() {
         enunciadoJuego = findViewById(R.id.enunciadoJuego);
         Simbolo = findViewById(R.id.simboloTextView);
-        muestraVidas = findViewById(R.id.Vidas);
         tresCorazones = findViewById(R.id.trescorazones);
         dosCorazones = findViewById(R.id.doscorazones);
         unCorazon = findViewById(R.id.uncorazon);
@@ -70,29 +60,32 @@ public class Game extends AppCompatActivity {
     }
 
     public void GuardaPuntuacion() {
+        SharedPreferences sharedpreferences = getSharedPreferences("Puntuacion", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
+
         editor.putString("Puntuacion", String.valueOf(Puntuacion));
         editor.apply();
     }
 
     @SuppressLint("SetTextI18n")
-    public void CargaPuntuacion() {
-        if(Integer.parseInt(Puntua) == 0 && Puntuacion == 0) {
-            PuntMaximo.setText("Puntuacion maxima: 0");
-        } else if(Integer.parseInt(Puntua) >= Puntuacion) {
+    public void CargaPuntuacion(){
+        SharedPreferences sharedpreferences = getSharedPreferences("Puntuacion", Context.MODE_PRIVATE);
+        String Puntua = sharedpreferences.getString("Puntuacion", "0");
+
+        if(Integer.parseInt(Puntua) >= Puntuacion) {
+            PuntMaximo.setText("Puntuación maxima: "+ Puntua);
+        } else if(Puntuacion > Integer.parseInt(Puntua)){
             PuntMaximo.setText("Puntuación maxima: "+ Puntua);
         }
-
     }
-
 
     @SuppressLint("SetTextI18n")
     public void preguntaActual(){
-        Restante.setText("Restante "+ elementoActual +" / 117");
         enunciadoJuego.setText("Selecciona cual es el nombre que tiene este Simbolo: ");
         Simbolo.setText(allElementos.ArrElemento[elementoActual].getSimbolo());
+        Restante.setText("Restante "+ elementoActual +" / 117");
+        CargaPuntuacion();
         int numAux = (int) (Math.random()*4+1);
-        muestraVidas.setText(String.valueOf(vida));
         if(numAux==1)
         {
             bt_radio1.setText(allElementos.ArrElemento[elementoActual].getNombre());
@@ -130,8 +123,8 @@ public class Game extends AppCompatActivity {
     }
 
     public void unCheckRadioButtons() {
-        RadioGroup desm=findViewById(R.id.grupoBotones);
-        desm.clearCheck();
+        RadioGroup unCheck=findViewById(R.id.grupoBotones);
+        unCheck.clearCheck();
     }
 
     public void CheckToNext() {
@@ -193,11 +186,12 @@ public class Game extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).postDelayed(this::finish, 850);
             }
         }
-
+        SharedPreferences sharedpreferences = getSharedPreferences("Puntuacion", Context.MODE_PRIVATE);
         String Puntua = sharedpreferences.getString("Puntuacion", "0");
-        if(Integer.parseInt(Puntua) <= Puntuacion) {
+        if(Integer.parseInt(Puntua) <= Puntuacion){
             GuardaPuntuacion();
         }
 
     }
+
 }

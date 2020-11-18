@@ -28,7 +28,7 @@ public class menuPrincipal extends AppCompatActivity {
         Boton_Puntuacion.setOnClickListener(v -> {
             SharedPreferences sharedpreferences = getSharedPreferences("Puntuacion", Context.MODE_PRIVATE);
             String Puntua = sharedpreferences.getString("Puntuacion", "0");
-            Toast.makeText(this,"Tu puntuación es de: "+ Puntua, Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Tu puntuación maxima ha sido de: "+ Puntua, Toast.LENGTH_LONG).show();
         });
         Boton_Elementos.setOnClickListener(v -> {
             Intent Elementos = new Intent (v.getContext(), allElementos.class);

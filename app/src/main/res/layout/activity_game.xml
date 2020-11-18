@@ -21,73 +21,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/Vidas"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="serif-monospace"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:visibility="gone"
-                tools:visibility="gone" />
-
-            <ImageView
-                android:id="@+id/trescorazones"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="right"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY"
-                app:srcCompat="@mipmap/trescorazones" />
-
-            <ImageView
-                android:id="@+id/doscorazones"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="right"
-                android:layout_weight="0"
-                android:visibility="gone"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY"
-                app:srcCompat="@mipmap/doscorazones" />
-
-            <ImageView
-                android:id="@+id/uncorazon"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_weight="1"
-                android:visibility="gone"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY"
-                app:srcCompat="@mipmap/uncorazon" />
-
-        </LinearLayout>
-
         <TextView
             android:id="@+id/enunciadoJuego"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:hint="Selecciona cual es el nombre que tiene este Simbolo:"
+            android:hint="@string/selecciona_cual_es_el_nombre_que_tiene_este_simbolo"
             android:textColor="@color/colorPrimary"
-            android:textSize="14sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/simboloTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="serif-monospace"
+            android:fontFamily="@font/abeezee"
             android:gravity="center"
-            android:hint="Simbolo"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="16dp"
+            android:hint="@string/simbolo"
+            android:textColor="#C31010"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <Space
@@ -102,7 +54,7 @@
             <RadioButton
                 android:id="@+id/bt_radio1"
                 android:layout_width="match_parent"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:layout_height="wrap_content" />
 
             <Space
@@ -112,7 +64,7 @@
             <RadioButton
                 android:id="@+id/bt_radio2"
                 android:layout_width="match_parent"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:layout_height="wrap_content" />
 
             <Space
@@ -122,7 +74,7 @@
             <RadioButton
                 android:id="@+id/bt_radio3"
                 android:layout_width="match_parent"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:layout_height="wrap_content" />
 
             <Space
@@ -132,7 +84,7 @@
             <RadioButton
                 android:id="@+id/bt_radio4"
                 android:layout_width="match_parent"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:layout_height="wrap_content" />
 
             <Space
@@ -144,23 +96,62 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Corregir"
+                android:text="@string/corregir"
                 android:textColor="#FFFFFF"
                 style="@style/TextAppearance.AppCompat.Large"/>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_weight="1" />
 
         </RadioGroup>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:baselineAligned="false">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/trescorazones"
+                    android:layout_width="125dp"
+                    android:layout_height="125dp"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@mipmap/trescorazones"
+                    android:contentDescription="@string/todo" />
+
+                <ImageView
+                    android:id="@+id/doscorazones"
+                    android:layout_width="125dp"
+                    android:layout_height="125dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/todo"
+                    android:scaleType="fitXY"
+                    android:visibility="gone"
+                    app:srcCompat="@mipmap/doscorazones" />
+
+                <ImageView
+                    android:id="@+id/uncorazon"
+                    android:layout_width="125dp"
+                    android:layout_height="125dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/todo"
+                    android:scaleType="fitXY"
+                    android:visibility="gone"
+                    app:srcCompat="@mipmap/uncorazon" />
 
                 <TextView
                     android:id="@+id/PuntMaximo"
@@ -168,7 +159,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:hint="Puntuacion Maxima: "
+                    android:hint="@string/puntuacion_maxima"
                     android:textColorHighlight="#FFFFFF"
                     android:textSize="24sp" />
 
@@ -178,7 +169,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:hint="Restante: "
+                    android:hint="@string/restante"
                     android:textColorHighlight="#FFFFFF"
                     android:textSize="24sp" />
             </LinearLayout>

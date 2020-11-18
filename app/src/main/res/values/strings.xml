@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Tabla Periodica</string>
+    <string name="puntuacion_maxima">Puntuacion Maxima:</string>
+    <string name="corregir">Corregir</string>
+    <string name="restante">Restante:</string>
+    <string name="selecciona_cual_es_el_nombre_que_tiene_este_simbolo">Selecciona cual es el nombre que tiene este Simbolo:</string>
+    <string name="todo">TODO</string>
+    <string name="simbolo">Simbolo</string>
 </resources>
