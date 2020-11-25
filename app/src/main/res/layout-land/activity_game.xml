@@ -42,10 +42,6 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="8dp" />
-
         <RadioGroup
             android:id="@+id/grupoBotones"
             android:layout_width="match_parent"
@@ -57,19 +53,11 @@
                 android:textSize="18sp"
                 android:layout_height="wrap_content" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="5dp" />
-
             <RadioButton
                 android:id="@+id/bt_radio2"
                 android:layout_width="match_parent"
                 android:textSize="18sp"
                 android:layout_height="wrap_content" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="5dp" />
 
             <RadioButton
                 android:id="@+id/bt_radio3"
@@ -77,19 +65,11 @@
                 android:textSize="18sp"
                 android:layout_height="wrap_content" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="5dp" />
-
             <RadioButton
                 android:id="@+id/bt_radio4"
                 android:layout_width="match_parent"
                 android:textSize="18sp"
                 android:layout_height="wrap_content" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="5dp" />
 
             <Button
                 android:id="@+id/bt_corregir"
@@ -100,11 +80,6 @@
                 android:textColor="#FFFFFF"
                 style="@style/TextAppearance.AppCompat.Large"/>
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:layout_weight="1" />
-
         </RadioGroup>
 
         <LinearLayout
@@ -112,6 +87,26 @@
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:baselineAligned="false">
+
+            <TextView
+                android:id="@+id/PuntMaximo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:hint="@string/puntuacion_maxima"
+                android:textColorHighlight="#FFFFFF"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/Restante"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:hint="@string/restante"
+                android:textColorHighlight="#FFFFFF"
+                android:textSize="24sp" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -121,12 +116,13 @@
 
                 <ImageView
                     android:id="@+id/trescorazones"
-                    android:layout_width="125dp"
-                    android:layout_height="125dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
+                    android:contentDescription=""
                     android:scaleType="fitXY"
-                    app:srcCompat="@mipmap/trescorazones"/>
+                    app:srcCompat="@mipmap/trescorazones" />
 
                 <ImageView
                     android:id="@+id/doscorazones"
@@ -150,25 +146,6 @@
                     android:visibility="gone"
                     app:srcCompat="@mipmap/uncorazon" />
 
-                <TextView
-                    android:id="@+id/PuntMaximo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:hint="@string/puntuacion_maxima"
-                    android:textColorHighlight="#FFFFFF"
-                    android:textSize="24sp" />
-
-                <TextView
-                    android:id="@+id/Restante"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:hint="@string/restante"
-                    android:textColorHighlight="#FFFFFF"
-                    android:textSize="24sp" />
             </LinearLayout>
 
         </LinearLayout>
